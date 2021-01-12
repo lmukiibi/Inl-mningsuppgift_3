@@ -11,13 +11,17 @@ namespace Inlämningsuppgift_3
         public const string Welcome =
             "********************************\n" +
             "* Welcome to Console Monsters! *\n" +
-            "********************************\n";
+            "********************************";
+
+        public const string EnterName =
+            "Enter your name";
 
         public const string StartMenu =
             "1. Explore the world\n" +
             "2. Character info\n" +
             "3. Go to the shop\n" +
-            "4. Exit";
+            "4. Save/Load\n" +
+            "5. Exit";
 
         public const string WrongInput =
             "Wrong input";
@@ -33,5 +37,8 @@ namespace Inlämningsuppgift_3
 
         public const string BeginBattle =
             "Begin battle!";
+
+        public const string AnyKey =
+            "Press any key...";
     }
 }

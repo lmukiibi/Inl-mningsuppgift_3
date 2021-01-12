@@ -10,21 +10,54 @@ namespace Inlämningsuppgift_3
     class Console_Monsters
     {
         private bool running;
+
+        List<Monster> monsters;
+        Monster enemy;
+
+        Player player;
         public Console_Monsters()
         {
+            Init init = new Init();
+            monsters = init.LoadMonsters();
             running = true;
             Message(Texts.Welcome);
+            Message(Texts.EnterName);
+            player = new Player(Console.ReadLine());
             Thread.Sleep(500);
+
+            init = null;
             Run();
+        }
+
+        private void Battle()
+        {
+            player.UpdatePlayerStats();
+            
         }
 
         private void Exploring()
         {
             Console.Clear();
             Random random = new Random();
-            if (random.Next(0, 10) > 8)
+            if (random.Next(0, 10) > 0)
             {
-
+                enemy = monsters[random.Next(0, monsters.Count)];
+                Message(Texts.Encounter + enemy.Name + "\n");
+                enemy.ShowStats();
+                player.ShowStats();
+                Message(Texts.BeginBattle);
+                Message(Texts.AnyKey);
+                Console.ReadKey();
+                Console.Clear();
+                while (true)
+                {
+                    Battle();
+                    Console.ReadKey();
+                }
+            }
+            else
+            {
+                Message(Texts.FoundNothing);
             }
         }
 
@@ -50,6 +83,9 @@ namespace Inlämningsuppgift_3
 
                             break;
                         case 4:
+
+                            break;
+                        case 5:
                             running = false;
                             Message(Texts.Exit);
                             break;
@@ -62,6 +98,10 @@ namespace Inlämningsuppgift_3
                 {
                     Message(Texts.WrongInput);
                 }
+
+                Message(Texts.AnyKey);
+                Console.ReadKey();
+                Console.Clear();
             }
         }
 
