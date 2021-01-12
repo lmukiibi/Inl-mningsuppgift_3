@@ -29,16 +29,29 @@ namespace Inlämningsuppgift_3
             Run();
         }
 
-        private void Battle()
+        private bool Battle()
         {
-            player.UpdatePlayerStats();
-            
+            enemy.CurretHP -= player.Damage + player.Attack;
+
+            Message(Texts.YouHit + enemy.Name + " dealing " + (player.Damage + player.Attack).ToString() + " damage");
+            if (enemy.CurretHP > 0)
+            {
+                Message(enemy.Name + Texts.ItHit + " dealing " + enemy.Damage.ToString() + " damage");
+
+            }
+            else
+            {
+                Message(Texts.ItDied);
+                return false;
+            }
+            return true;
         }
 
         private void Exploring()
         {
             Console.Clear();
             Random random = new Random();
+            bool batteling = true;
             if (random.Next(0, 10) > 0)
             {
                 enemy = monsters[random.Next(0, monsters.Count)];
@@ -49,9 +62,10 @@ namespace Inlämningsuppgift_3
                 Message(Texts.AnyKey);
                 Console.ReadKey();
                 Console.Clear();
-                while (true)
+                while (batteling)
                 {
-                    Battle();
+                    player.UpdatePlayerStats(enemy);
+                    batteling = Battle();
                     Console.ReadKey();
                 }
             }

@@ -40,5 +40,14 @@ namespace Inlämningsuppgift_3
 
         public const string AnyKey =
             "Press any key...";
+
+        public const string YouHit =
+            "You hit ";
+
+        public const string ItDied =
+            "And it died. Good job!";
+
+        public const string ItHit =
+            " hit you";
     }
 }

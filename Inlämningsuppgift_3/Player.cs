@@ -15,6 +15,7 @@ namespace Inlämningsuppgift_3
         private int lvl;
         private int attack;
         private int defence;
+        private int xP;
         public Player(string name)
         {
             this.name = name;
@@ -24,9 +25,10 @@ namespace Inlämningsuppgift_3
             lvl = 1;
             attack = 0;
             defence = 0;
+            xP = 0;
         }
 
-        public Player(string name, int hP, int damage, int lvl, int currentHP, int attack, int defence)
+        public Player(string name, int hP, int damage, int lvl, int currentHP, int attack, int defence, int xP)
         {
             this.name = name;
             this.hP = hP;
@@ -35,15 +37,18 @@ namespace Inlämningsuppgift_3
             this.curretHP = currentHP;
             this.attack = attack;
             this.defence = defence;
+            this.xP = xP;
         }
 
         public string Name { get => name; }
         public int HP { get => hP * Lvl; }
         public int CurretHP { get => curretHP; set => curretHP = value; }
         public int Damage { get => damage * Lvl; }
-        public int Lvl { get => lvl; }
-
+        public int Lvl { get => lvl; }        
         public int Attack { get => attack; set => attack = value; }
+        public int Defence { get => defence; set => defence = value; }
+        public int XP { get => xP; set => xP = value; }
+
         public void ShowStats()
         {
             Console.WriteLine(Name);
@@ -54,7 +59,7 @@ namespace Inlämningsuppgift_3
             Console.WriteLine("Defence " + defence.ToString());
             Console.WriteLine();
         }
-        public void UpdatePlayerStats()
+        public void UpdatePlayerStats(Monster enemy)
         {
 
         }
