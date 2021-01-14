@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace Inlämningsuppgift_3
 {
     class Console_Monsters
@@ -26,15 +27,14 @@ namespace Inlämningsuppgift_3
             Thread.Sleep(500);
 
             init = null;
-            Run();
         }
 
         private bool Battle()
         {
-            enemy.CurretHP -= player.Damage + player.Attack;
+            enemy.CurrentHP -= player.Damage + player.Attack;
 
             Message(Texts.YouHit + enemy.Name + " dealing " + (player.Damage + player.Attack).ToString() + " damage");
-            if (enemy.CurretHP > 0)
+            if (enemy.CurrentHP > 0)
             {
                 player.CurretHP -= enemy.Damage;
                 Message(enemy.Name + Texts.ItHit + " dealing " + enemy.Damage.ToString() + " damage\n");
@@ -53,7 +53,7 @@ namespace Inlämningsuppgift_3
             else
             {
                 Message(Texts.ItDied);
-                enemy.CurretHP = enemy.HP;
+                enemy.CurrentHP = enemy.HP;
                 return false;
             }
             return true;
@@ -64,9 +64,11 @@ namespace Inlämningsuppgift_3
             Console.Clear();
             Random random = new Random();
             bool batteling = true;
+
             if (random.Next(0, 10) > 0)
             {
                 enemy = monsters[random.Next(0, monsters.Count)];
+                enemy = enemy.AdjustLevel(enemy, player);
                 Message(Texts.Encounter + enemy.Name + "\n");
                 enemy.ShowStats();
                 player.ShowStats();
@@ -74,9 +76,9 @@ namespace Inlämningsuppgift_3
                 Message(Texts.AnyKey);
                 Console.ReadKey();
                 Console.Clear();
+
                 while (batteling)
                 {
-                    player.UpdatePlayerStats(enemy);
                     batteling = Battle();
                     Console.ReadKey();
                 }
@@ -87,7 +89,7 @@ namespace Inlämningsuppgift_3
             }
         }
 
-        private void Run()
+        public void Run()
         {
             while (running)
             {

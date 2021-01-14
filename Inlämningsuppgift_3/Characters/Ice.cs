@@ -6,16 +6,22 @@ using System.Threading.Tasks;
 
 namespace Inlämningsuppgift_3
 {
-    class Electric : Monster
+    class Ice : Monster
     {
-        public Electric(string name, int hP, int damage, int lvl, Monster_Type type)
+        public Ice(string name, int hP, int damage, int lvl, Monster_Type type, int gold)
         {
             this.name = name;
             this.hP = hP;
             this.damage = damage;
             this.lvl = lvl;
             this.type = type;
-            CurretHP = HP;
+            CurrentHP = HP;
+            this.gold = gold;
+        }
+
+        public void UpdateStats(Player player)
+        {
+
         }
     }
 }

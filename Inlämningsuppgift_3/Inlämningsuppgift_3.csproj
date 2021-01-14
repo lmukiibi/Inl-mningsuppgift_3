@@ -44,10 +44,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Console_Monsters.cs" />
-    <Compile Include="Electric.cs" />
+    <Compile Include="Characters\Water.cs" />
+    <Compile Include="Characters\Ice.cs" />
+    <Compile Include="Characters\Fire.cs" />
+    <Compile Include="Characters\Electric.cs" />
     <Compile Include="Init.cs" />
-    <Compile Include="Monster.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Characters\Monster.cs" />
+    <Compile Include="Characters\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Texts.cs" />

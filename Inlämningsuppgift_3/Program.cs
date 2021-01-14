@@ -11,6 +11,7 @@ namespace Inlämningsuppgift_3
         static void Main(string[] args)
         {
             Console_Monsters CM = new Console_Monsters();
+            CM.Run();
 
         }
     }

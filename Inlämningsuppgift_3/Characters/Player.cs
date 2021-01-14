@@ -21,8 +21,8 @@ namespace Inlämningsuppgift_3
             this.name = name;
             hP = 50;
             curretHP = hP;
-            damage = 3;
-            lvl = 1;
+            damage = 10;
+            lvl = 6;
             attack = 0;
             defence = 0;
             xP = 0;
@@ -34,7 +34,7 @@ namespace Inlämningsuppgift_3
             this.hP = hP;
             this.damage = damage;
             this.lvl = lvl;
-            this.curretHP = currentHP;
+            this.curretHP = hP;
             this.attack = attack;
             this.defence = defence;
             this.xP = xP;
@@ -42,7 +42,7 @@ namespace Inlämningsuppgift_3
 
         public string Name { get => name; }
         public int HP { get => hP * Lvl; }
-        public int CurretHP { get => curretHP; set => curretHP = value; }
+        public int CurretHP { get => curretHP * Lvl; set => curretHP = value; }
         public int Damage { get => damage * Lvl; }
         public int Lvl { get => lvl; }        
         public int Attack { get => attack; set => attack = value; }
