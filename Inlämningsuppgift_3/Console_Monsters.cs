@@ -36,12 +36,24 @@ namespace Inlämningsuppgift_3
             Message(Texts.YouHit + enemy.Name + " dealing " + (player.Damage + player.Attack).ToString() + " damage");
             if (enemy.CurretHP > 0)
             {
-                Message(enemy.Name + Texts.ItHit + " dealing " + enemy.Damage.ToString() + " damage");
-
+                player.CurretHP -= enemy.Damage;
+                Message(enemy.Name + Texts.ItHit + " dealing " + enemy.Damage.ToString() + " damage\n");
+                if (player.CurretHP > 0)
+                {
+                    enemy.ShowStats();
+                    player.ShowStats();
+                }
+                else
+                {
+                    Message(Texts.YouDied);
+                    running = false;
+                    return false;
+                }
             }
             else
             {
                 Message(Texts.ItDied);
+                enemy.CurretHP = enemy.HP;
                 return false;
             }
             return true;
@@ -113,9 +125,20 @@ namespace Inlämningsuppgift_3
                     Message(Texts.WrongInput);
                 }
 
+                PlayerAlive();
+
                 Message(Texts.AnyKey);
                 Console.ReadKey();
                 Console.Clear();
+            }
+        }
+
+        private void PlayerAlive()
+        {
+            if (player.CurretHP <= 0)
+            {
+                running = false;
+                Message(Texts.GameOver);
             }
         }
 

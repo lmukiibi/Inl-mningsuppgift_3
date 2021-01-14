@@ -53,7 +53,8 @@ namespace Inlämningsuppgift_3
         {
             Console.WriteLine(Name);
             Console.WriteLine("Lvl " + Lvl.ToString());
-            Console.WriteLine("HP " + HP.ToString());
+            Console.WriteLine("Total HP " + HP.ToString());
+            Console.WriteLine("Current HP " + CurretHP.ToString());
             Console.WriteLine("Damage " + Damage.ToString());
             Console.WriteLine("Attack " + Attack.ToString());
             Console.WriteLine("Defence " + defence.ToString());

@@ -12,7 +12,6 @@ namespace Inlämningsuppgift_3
         {
             Console_Monsters CM = new Console_Monsters();
 
-            Console.ReadKey();
         }
     }
 }

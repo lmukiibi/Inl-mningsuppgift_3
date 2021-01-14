@@ -49,5 +49,11 @@ namespace Inlämningsuppgift_3
 
         public const string ItHit =
             " hit you";
+
+        public const string YouDied =
+            "You died!";
+
+        public const string GameOver =
+            "Game Over...";
     }
 }
