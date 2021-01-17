@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Inlämningsuppgift_3
 {
-    class Player
+    class Player : IShowable, IShowPlayerStats
     {
         private string name;
         private int hP;
@@ -21,7 +21,7 @@ namespace Inlämningsuppgift_3
         public Player(string name)
         {
             this.name = name;
-            lvl = 6;
+            lvl = 1;
             hP = 20 * lvl;
             curretHP = hP;
             damage = 10 * lvl;

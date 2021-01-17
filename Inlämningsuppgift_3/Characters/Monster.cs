@@ -14,7 +14,7 @@ namespace Inlämningsuppgift_3
         Ice
     }
 
-    struct FightingMonster
+    struct FightingMonster : IShowable
     {
         public string Name { get; set; }
         public int HP { get; set; }
@@ -23,6 +23,7 @@ namespace Inlämningsuppgift_3
         public int Lvl { get; set; }
         public Monster_Type Type { get; set; }
         public int Gold { get; set; }
+        public int XP { get; set; }
 
         public void ShowStats()
         {
@@ -35,18 +36,16 @@ namespace Inlämningsuppgift_3
         }
 
     }
-    class Monster
+    class Monster : IShowable
     {
+
         private protected string name;
         private protected int hP;
         private protected int curretHP;
         private protected int damage;
         private protected int lvl;
         private protected Monster_Type type;
-        private protected int gold;
-
-
-        
+        private protected int gold;        
 
         public string Name { get => name; }
         public int HP { get => hP * Lvl; }
@@ -55,6 +54,7 @@ namespace Inlämningsuppgift_3
         public int Lvl { get => lvl; set => lvl = value; }
         public Monster_Type Type { get => type; }
         public int Gold { get => gold; set => gold = value; }
+        public int XP { get; }
 
         public void ShowStats()
         {
@@ -77,6 +77,7 @@ namespace Inlämningsuppgift_3
             monster.CurrentHP = monster.HP;
             monster.Damage = enemy.Damage * monster.Lvl;
             monster.Gold = enemy.Gold * monster.Lvl / 2 / 3;
+            monster.XP = monster.Gold * monster.Lvl;
 
             return monster;
 

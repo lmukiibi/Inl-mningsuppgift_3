@@ -19,9 +19,5 @@ namespace Inlämningsuppgift_3
             this.gold = gold;
         }
 
-        public void UpdateStats(Player player)
-        {
-
-        }
     }
 }

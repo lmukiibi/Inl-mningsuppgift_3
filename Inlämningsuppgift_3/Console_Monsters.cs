@@ -43,8 +43,8 @@ namespace Inlämningsuppgift_3
                 Message(monster.Name + Texts.ItHit + " dealing " + monster.Damage.ToString() + " damage\n");
                 if (player.CurretHP > 0)
                 {
-                    monster.ShowStats();
-                    player.ShowStats();
+                    ShowStats(monster);
+                    ShowStats(player);
                 }
                 else
                 {
@@ -56,16 +56,30 @@ namespace Inlämningsuppgift_3
             else
             {
                 Message(Texts.ItDied);
-                player.CurretHP += player.Recovery;
                 if (player.CurretHP > player.HP)
                 {
                     player.CurretHP = player.HP;
                 }
-                Message(player.Recovery.ToString() + Texts.Recovery);
+                else
+                {
+                    player.CurretHP += player.Recovery;
+                    Message(player.Recovery.ToString() + Texts.Recovery);
+                }
+
+                player.Gold += monster.Gold;
+                Message(monster.Gold + Texts.GoldGained);
+
+                player.XP += monster.XP;
+                Message(monster.XP + Texts.Experience);
+
+                LevelUp(player);
+
                 return false;
             }
             return true;
         }
+
+        
 
         private void Exploring()
         {
@@ -75,8 +89,7 @@ namespace Inlämningsuppgift_3
 
             if (random.Next(0, 10) > 0)
             {
-                randomMonster = listOfMonsters[random.Next(0, listOfMonsters.Count)];
-                monster = randomMonster.SetValues(randomMonster, player);
+                monster = randomMonster.SetValues(listOfMonsters[random.Next(0, listOfMonsters.Count)], player);
 
                 Message(Texts.Encounter + monster.Name + "\n");
                 monster.ShowStats();
@@ -95,6 +108,11 @@ namespace Inlämningsuppgift_3
             else
             {
                 Message(Texts.FoundNothing);
+                if (player.HP != player.CurretHP)
+                {
+                    player.CurretHP += player.Recovery;
+                    Message(player.Recovery.ToString() + Texts.Recovery);
+                }
             }
         }
 
@@ -114,7 +132,8 @@ namespace Inlämningsuppgift_3
                             Exploring();
                             break;
                         case 2:
-
+                            ShowPlayerStats(player);
+                            Console.ReadKey();
                             break;
                         case 3:
 
@@ -143,7 +162,20 @@ namespace Inlämningsuppgift_3
                 Console.Clear();
             }
         }
+        private void ShowStats(IShowable show)
+        {
+            show.ShowStats();
+        }
 
+        private void ShowPlayerStats(IPlayerface show)
+        {
+            show.ShowStatsInMenu();
+        }
+
+        private void LevelUp(IPlayerface lvl)
+        {
+            lvl.LevelUp();
+        }
         private void PlayerAlive()
         {
             if (player.CurretHP <= 0)

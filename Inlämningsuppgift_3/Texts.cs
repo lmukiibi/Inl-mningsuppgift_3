@@ -58,5 +58,11 @@ namespace Inlämningsuppgift_3
 
         public const string Recovery =
             " hitpoints recovered.";
+
+        public const string GoldGained =
+            " gold gained.";
+
+        public const string Experience =
+            " experience gained.";
     }
 }
