@@ -13,13 +13,34 @@ namespace Inlämningsuppgift_3
         Fire,
         Ice
     }
+
+    struct FightingMonster
+    {
+        public string Name { get; set; }
+        public int HP { get; set; }
+        public int CurrentHP { get; set; }
+        public int Damage { get; set; }
+        public int Lvl { get; set; }
+        public Monster_Type Type { get; set; }
+        public int Gold { get; set; }
+
+        public void ShowStats()
+        {
+            Console.WriteLine(Name);
+            Console.WriteLine("Lvl " + Lvl.ToString());
+            Console.WriteLine("HP " + CurrentHP.ToString());
+            Console.WriteLine("Damage " + Damage.ToString());
+            Console.WriteLine("Type " + Type.ToString());
+            Console.WriteLine();
+        }
+
+    }
     class Monster
     {
         private protected string name;
         private protected int hP;
         private protected int curretHP;
         private protected int damage;
-        private protected int atqBonusReduction;
         private protected int lvl;
         private protected Monster_Type type;
         private protected int gold;
@@ -31,7 +52,6 @@ namespace Inlämningsuppgift_3
         public int HP { get => hP * Lvl; }
         public  int CurrentHP { get => curretHP; set => curretHP = value; }
         public int Damage { get => damage; set => damage = value; }
-        public int AtqBonusReduction { get => atqBonusReduction; set => atqBonusReduction = value; }
         public int Lvl { get => lvl; set => lvl = value; }
         public Monster_Type Type { get => type; }
         public int Gold { get => gold; set => gold = value; }
@@ -42,20 +62,25 @@ namespace Inlämningsuppgift_3
             Console.WriteLine("Lvl " + Lvl.ToString());
             Console.WriteLine("HP " + CurrentHP.ToString());
             Console.WriteLine("Damage " + Damage.ToString());
-            Console.WriteLine("Type " + type.ToString());
+            Console.WriteLine("Type " + Type.ToString());
             Console.WriteLine();
         }
 
-        public Monster AdjustLevel(Monster enemy, Player player)
+        public FightingMonster SetValues(Monster enemy, Player player)
         {
             Random r = new Random();
+            FightingMonster monster = new FightingMonster();
+            monster.Name = enemy.Name;
+            monster.Type = enemy.Type;
+            monster.Lvl = r.Next(player.Lvl / 2, player.Lvl) + 1;
+            monster.HP = enemy.HP * monster.Lvl;
+            monster.CurrentHP = monster.HP;
+            monster.Damage = enemy.Damage * monster.Lvl;
+            monster.Gold = enemy.Gold * monster.Lvl / 2 / 3;
 
-            enemy.Lvl = r.Next(player.Lvl / 2 + 1, player.Lvl);
-            this.Damage = enemy.Damage * enemy.Lvl;
-            this.CurrentHP = enemy.HP * enemy.Lvl;
-            this.Gold = enemy.Gold * enemy.Lvl / 2;
+            return monster;
 
-            return enemy;
         }
+
     }
 }

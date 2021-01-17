@@ -55,5 +55,8 @@ namespace Inlämningsuppgift_3
 
         public const string GameOver =
             "Game Over...";
+
+        public const string Recovery =
+            " hitpoints recovered.";
     }
 }

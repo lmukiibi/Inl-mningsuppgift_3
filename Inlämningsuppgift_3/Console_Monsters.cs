@@ -12,14 +12,17 @@ namespace Inlämningsuppgift_3
     {
         private bool running;
 
-        List<Monster> monsters;
-        Monster enemy;
+        List<Monster> listOfMonsters;
+        Monster randomMonster;
+        FightingMonster monster;
 
         Player player;
         public Console_Monsters()
         {
             Init init = new Init();
-            monsters = init.LoadMonsters();
+            listOfMonsters = init.LoadMonsters();
+            randomMonster = new Monster();
+            monster = new FightingMonster();
             running = true;
             Message(Texts.Welcome);
             Message(Texts.EnterName);
@@ -31,16 +34,16 @@ namespace Inlämningsuppgift_3
 
         private bool Battle()
         {
-            enemy.CurrentHP -= player.Damage + player.Attack;
+            monster.CurrentHP -= player.Damage + player.Attack;
 
-            Message(Texts.YouHit + enemy.Name + " dealing " + (player.Damage + player.Attack).ToString() + " damage");
-            if (enemy.CurrentHP > 0)
+            Message(Texts.YouHit + monster.Name + " dealing " + (player.Damage + player.Attack).ToString() + " damage");
+            if (monster.CurrentHP > 0)
             {
-                player.CurretHP -= enemy.Damage;
-                Message(enemy.Name + Texts.ItHit + " dealing " + enemy.Damage.ToString() + " damage\n");
+                player.CurretHP -= monster.Damage;
+                Message(monster.Name + Texts.ItHit + " dealing " + monster.Damage.ToString() + " damage\n");
                 if (player.CurretHP > 0)
                 {
-                    enemy.ShowStats();
+                    monster.ShowStats();
                     player.ShowStats();
                 }
                 else
@@ -53,7 +56,12 @@ namespace Inlämningsuppgift_3
             else
             {
                 Message(Texts.ItDied);
-                enemy.CurrentHP = enemy.HP;
+                player.CurretHP += player.Recovery;
+                if (player.CurretHP > player.HP)
+                {
+                    player.CurretHP = player.HP;
+                }
+                Message(player.Recovery.ToString() + Texts.Recovery);
                 return false;
             }
             return true;
@@ -67,10 +75,11 @@ namespace Inlämningsuppgift_3
 
             if (random.Next(0, 10) > 0)
             {
-                enemy = monsters[random.Next(0, monsters.Count)];
-                enemy = enemy.AdjustLevel(enemy, player);
-                Message(Texts.Encounter + enemy.Name + "\n");
-                enemy.ShowStats();
+                randomMonster = listOfMonsters[random.Next(0, listOfMonsters.Count)];
+                monster = randomMonster.SetValues(randomMonster, player);
+
+                Message(Texts.Encounter + monster.Name + "\n");
+                monster.ShowStats();
                 player.ShowStats();
                 Message(Texts.BeginBattle);
                 Message(Texts.AnyKey);
