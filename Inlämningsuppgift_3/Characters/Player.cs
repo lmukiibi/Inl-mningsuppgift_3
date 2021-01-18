@@ -6,12 +6,13 @@ using System.Threading.Tasks;
 
 namespace Inlämningsuppgift_3
 {
-    class Player : IShowable, IShowPlayerStats
+    class Player : IShowable, IPlayerface
     {
         private string name;
         private int hP;
         private int curretHP;
         private int damage;
+        private int currentDmg;
         private int lvl;
         private int attack;
         private int defence;
@@ -25,6 +26,7 @@ namespace Inlämningsuppgift_3
             hP = 20 * lvl;
             curretHP = hP;
             damage = 10 * lvl;
+            currentDmg = damage;
             attack = 0;
             defence = 0;
             xP = 0;
@@ -35,10 +37,11 @@ namespace Inlämningsuppgift_3
         public Player(string name, int hP, int damage, int lvl, int currentHP, int attack, int defence, int xP, int gold, int hPRecovery)
         {
             this.name = name;
+            this.lvl = lvl;
             this.hP = hP * lvl;
             this.damage = damage * lvl;
-            this.lvl = lvl;
             this.curretHP = this.hP;
+            this.currentDmg = damage;
             this.attack = attack;
             this.defence = defence;
             this.xP = xP;
@@ -47,9 +50,10 @@ namespace Inlämningsuppgift_3
         }
 
         public string Name { get => name; }
-        public int HP { get => hP; }
+        public int HP { get => hP; set => hP = value; }
         public int CurretHP { get => curretHP; set => curretHP = value; }
         public int Damage { get => damage; }
+        public int CurrentDmg { get => currentDmg; set => currentDmg = value; }
         public int Lvl { get => lvl; }        
         public int Attack { get => attack; set => attack = value; }
         public int Defence { get => defence; set => defence = value; }
@@ -63,7 +67,8 @@ namespace Inlämningsuppgift_3
             Console.WriteLine("Lvl " + Lvl.ToString());
             Console.WriteLine("Total HP " + HP.ToString());
             Console.WriteLine("Current HP " + CurretHP.ToString());
-            Console.WriteLine("Damage " + Damage.ToString());
+            Console.WriteLine("Maximum damage " + Damage.ToString());
+            Console.WriteLine("Current damage " + CurrentDmg.ToString());
             Console.WriteLine("Attack " + Attack.ToString());
             Console.WriteLine("Defence " + defence.ToString());
             Console.WriteLine();
@@ -77,13 +82,74 @@ namespace Inlämningsuppgift_3
             Console.WriteLine("Gold " + Gold.ToString());
             Console.WriteLine("Total HP " + HP.ToString());
             Console.WriteLine("Current HP " + CurretHP.ToString());
-            Console.WriteLine("Damage " + Damage.ToString());
+            Console.WriteLine("Maximum damage " + Damage.ToString());
+            Console.WriteLine("Current damage " + CurrentDmg.ToString());
             Console.WriteLine("Attack " + Attack.ToString());
             Console.WriteLine("Defence " + defence.ToString());
             Console.WriteLine();
         }
         public void UpdatePlayerStats(Monster enemy)
         {
+
+        }
+
+        public void UpdateAttHp()
+        {
+            hP = 20 * lvl;
+            damage = 10 * lvl;
+        }
+
+        public bool LevelUp()
+        {
+            int levStep = 5;
+            int lev = 1;
+            int x = XP;
+            while (x >= 0)
+            {
+                if (x >= lev * levStep)
+                {
+                    lev++;
+                    x -= (lev * levStep);
+                    levStep *= 2;
+                }
+                else
+                {
+                    break;
+                }
+            }
+
+            if (lev > lvl)
+            {
+                lvl = lev;
+                UpdateAttHp();
+                return true;
+            }
+            return false;
+        }
+
+        public void ChangePlayerAttributes(FightingMonster enemy)
+        {
+            Random r = new Random();
+            attack = 0;
+            defence = 0;
+            hPRecovery = 10;
+            currentDmg = damage;
+
+            switch (enemy.Type)
+            {
+                case Monster_Type.Electric:
+                    currentDmg -= r.Next(enemy.Damage/2, enemy.Damage + 1);
+                    break;
+                case Monster_Type.Fire:
+                    defence -= 5 * r.Next(enemy.Lvl / 2, enemy.Lvl) +1 ;
+                    break;
+                case Monster_Type.Water:
+                    attack -= 5 * r.Next(enemy.Lvl / 2, enemy.Lvl) + 1;
+                    break;
+                case Monster_Type.Ice:
+                    hPRecovery -= r.Next(5, 10);
+                    break;
+            }
 
         }
     }

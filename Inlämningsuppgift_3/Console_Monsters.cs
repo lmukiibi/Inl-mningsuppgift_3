@@ -34,13 +34,14 @@ namespace Inlämningsuppgift_3
 
         private bool Battle()
         {
-            monster.CurrentHP -= player.Damage + player.Attack;
+            Console.Clear();
+            monster.CurrentHP -= player.CurrentDmg + player.Attack;
 
-            Message(Texts.YouHit + monster.Name + " dealing " + (player.Damage + player.Attack).ToString() + " damage");
+            Message(Texts.YouHit + monster.Name + " dealing " + (player.CurrentDmg + player.Attack) + " damage");
             if (monster.CurrentHP > 0)
             {
-                player.CurretHP -= monster.Damage;
-                Message(monster.Name + Texts.ItHit + " dealing " + monster.Damage.ToString() + " damage\n");
+                player.CurretHP -= monster.Damage - player.Defence;
+                Message(monster.Name + Texts.ItHit + " dealing " + (monster.Damage - player.Defence) + " damage\n");
                 if (player.CurretHP > 0)
                 {
                     ShowStats(monster);
@@ -49,30 +50,34 @@ namespace Inlämningsuppgift_3
                 else
                 {
                     Message(Texts.YouDied);
-                    running = false;
                     return false;
                 }
             }
             else
             {
-                Message(Texts.ItDied);
-                if (player.CurretHP > player.HP)
-                {
-                    player.CurretHP = player.HP;
-                }
-                else
-                {
-                    player.CurretHP += player.Recovery;
-                    Message(player.Recovery.ToString() + Texts.Recovery);
-                }
-
-                player.Gold += monster.Gold;
-                Message(monster.Gold + Texts.GoldGained);
+                Message(Texts.ItDied + "\n");
 
                 player.XP += monster.XP;
                 Message(monster.XP + Texts.Experience);
 
-                LevelUp(player);
+                LevelUp(player, player);
+
+
+                if (player.CurretHP < player.HP)
+                {
+                    player.CurretHP += player.Recovery;
+                    Message(player.Recovery.ToString() + Texts.Recovery);
+                    if (player.CurretHP > player.HP)
+                    {
+                        player.CurretHP = player.HP;
+                    }
+                }
+                
+                player.Gold += monster.Gold;
+                Message(monster.Gold + Texts.GoldGained);
+
+                
+
 
                 return false;
             }
@@ -90,6 +95,7 @@ namespace Inlämningsuppgift_3
             if (random.Next(0, 10) > 0)
             {
                 monster = randomMonster.SetValues(listOfMonsters[random.Next(0, listOfMonsters.Count)], player);
+                SetUpForBattle(player, monster);
 
                 Message(Texts.Encounter + monster.Name + "\n");
                 monster.ShowStats();
@@ -108,42 +114,52 @@ namespace Inlämningsuppgift_3
             else
             {
                 Message(Texts.FoundNothing);
-                if (player.HP != player.CurretHP)
+                if (player.CurretHP < player.HP)
                 {
                     player.CurretHP += player.Recovery;
                     Message(player.Recovery.ToString() + Texts.Recovery);
+                    if (player.CurretHP > player.HP)
+                    {
+                        player.CurretHP = player.HP;
+                    }
                 }
+                Console.ReadKey();
             }
+
+
         }
 
         public void Run()
         {
             while (running)
             {
-                int choise;
+                string choise;
                 Message(Texts.StartMenu);
                 try
                 {
-                    choise = Convert.ToInt32(Console.ReadLine());
+                    choise = Console.ReadLine();
 
                     switch (choise)
                     {
-                        case 1:
+                        case "1":
                             Exploring();
                             break;
-                        case 2:
+                        case "2":
                             ShowPlayerStats(player);
                             Console.ReadKey();
                             break;
-                        case 3:
+                        case "3":
 
                             break;
-                        case 4:
+                        case "4":
 
                             break;
-                        case 5:
+                        case "5":
                             running = false;
                             Message(Texts.Exit);
+                            break;
+                        case "":
+                            Exploring();
                             break;
                         default:
                             Message(Texts.WrongInput);
@@ -157,11 +173,16 @@ namespace Inlämningsuppgift_3
 
                 PlayerAlive();
 
-                Message(Texts.AnyKey);
-                Console.ReadKey();
+                //Message(Texts.AnyKey);
+                //Console.ReadKey();
                 Console.Clear();
             }
         }
+        private void SetUpForBattle(IPlayerface setting, FightingMonster enemy)
+        {
+            setting.ChangePlayerAttributes(enemy);
+        }
+
         private void ShowStats(IShowable show)
         {
             show.ShowStats();
@@ -172,16 +193,21 @@ namespace Inlämningsuppgift_3
             show.ShowStatsInMenu();
         }
 
-        private void LevelUp(IPlayerface lvl)
+        private void LevelUp(IPlayerface lvl, Player player)
         {
-            lvl.LevelUp();
+            if (lvl.LevelUp())
+            {
+                Message(Texts.LevelUp + player.Lvl);
+            }
         }
         private void PlayerAlive()
         {
             if (player.CurretHP <= 0)
             {
-                running = false;
+                //running = false;
                 Message(Texts.GameOver);
+                Console.ReadKey();
+                player = new Player(player.Name);
             }
         }
 

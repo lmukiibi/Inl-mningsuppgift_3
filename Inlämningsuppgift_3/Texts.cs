@@ -54,7 +54,8 @@ namespace Inlämningsuppgift_3
             "You died!";
 
         public const string GameOver =
-            "Game Over...";
+            "Game Over...\n" +
+            "Now you have to start from the begining.";
 
         public const string Recovery =
             " hitpoints recovered.";
@@ -64,5 +65,8 @@ namespace Inlämningsuppgift_3
 
         public const string Experience =
             " experience gained.";
+
+        public const string LevelUp =
+            "You reached level ";
     }
 }
