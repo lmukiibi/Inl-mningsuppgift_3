@@ -24,5 +24,16 @@ namespace Inlämningsuppgift_3
 
             return listOfMonsters;
         }
+
+        public List<AmuletClass> LoadAmulets()
+        {
+            List<AmuletClass> listOfAmulettes = new List<AmuletClass>();
+            listOfAmulettes.Add(new ElectricAmulet("Faradays amulet", Amulet.Electric, 10, 20));
+            listOfAmulettes.Add(new WaterAmulet("Mermaid amulet", Amulet.Water, 10, 20));
+            listOfAmulettes.Add(new FireAmulet("Starlight", Amulet.Fire, 10, 20));
+            listOfAmulettes.Add(new IceAmulet("Aang amulet", Amulet.Ice, 10, 20));
+
+            return listOfAmulettes;
+        }
     }
 }

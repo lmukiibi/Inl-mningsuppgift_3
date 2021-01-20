@@ -19,6 +19,8 @@ namespace Inlämningsuppgift_3
         private int xP;
         private int gold;
         private int hPRecovery;
+
+        Dictionary<int, bool> amPocket;
         public Player(string name)
         {
             this.name = name;
@@ -32,6 +34,13 @@ namespace Inlämningsuppgift_3
             xP = 0;
             gold = 0;
             hPRecovery = 10;
+
+            amPocket = new Dictionary<int, bool>();
+            for (int i = 0; i < 4; i++)
+            {
+                amPocket.Add(i, false);
+            }
+                    
         }
 
         public Player(string name, int hP, int damage, int lvl, int currentHP, int attack, int defence, int xP, int gold, int hPRecovery)
@@ -76,7 +85,8 @@ namespace Inlämningsuppgift_3
 
         public void ShowStatsInMenu()
         {
-            Console.WriteLine(Name);
+            Console.Clear();
+            Console.WriteLine("\n" + Name);
             Console.WriteLine("Lvl " + Lvl.ToString());
             Console.WriteLine("Xp " + XP.ToString());
             Console.WriteLine("Gold " + Gold.ToString());
@@ -86,6 +96,11 @@ namespace Inlämningsuppgift_3
             Console.WriteLine("Current damage " + CurrentDmg.ToString());
             Console.WriteLine("Attack " + Attack.ToString());
             Console.WriteLine("Defence " + defence.ToString());
+
+            foreach (KeyValuePair<int, bool> list in amPocket)
+            {
+                Console.WriteLine($"{(Amulet)list.Key}amulet {list.Value}");
+            }
             Console.WriteLine();
         }
         public void UpdatePlayerStats(Monster enemy)
@@ -127,7 +142,7 @@ namespace Inlämningsuppgift_3
             return false;
         }
 
-        public void ChangePlayerAttributes(FightingMonster enemy)
+        public void ChangePlayerAttributes(FightingMonster enemy, List<AmuletClass> list)
         {
             Random r = new Random();
             attack = 0;
@@ -150,7 +165,35 @@ namespace Inlämningsuppgift_3
                     hPRecovery -= r.Next(5, 10);
                     break;
             }
+            for (int i = 0; i < amPocket.Count; i++)
+            {
+                if (amPocket[i] == true)
+                {
+                    for (int j = 0; j < list.Count; j++)
+                    {
+                        if (list[j].Amulet == (Amulet)amPocket[i].)
+                        {
 
+                        }
+                    }
+                }
+            }
+
+        }
+
+        public void BuyAmulet(Amulet amulet)
+        {
+            int am = (int)amulet;
+
+
+            if (amPocket[am] == false)
+            {
+                amPocket[am] = true;
+            }
+            else
+            {
+                amPocket[am] = false;
+            }
         }
     }
 }

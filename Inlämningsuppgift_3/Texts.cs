@@ -68,5 +68,13 @@ namespace Inlämningsuppgift_3
 
         public const string LevelUp =
             "You reached level ";
+
+        public const string AmuletOrPotion =
+            "1. Amullet\n" +
+            "2. Potion\n" + 
+            "B. Go back";
+
+        public const string ChooseItem =
+            "Choose with Item you want to buy.";
     }
 }

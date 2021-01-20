@@ -16,11 +16,14 @@ namespace Inlämningsuppgift_3
         Monster randomMonster;
         FightingMonster monster;
 
+        List<AmuletClass> listOfAmulettes;
+
         Player player;
         public Console_Monsters()
         {
             Init init = new Init();
             listOfMonsters = init.LoadMonsters();
+            listOfAmulettes = init.LoadAmulets();
             randomMonster = new Monster();
             monster = new FightingMonster();
             running = true;
@@ -129,6 +132,59 @@ namespace Inlämningsuppgift_3
 
         }
 
+        private void ShowTheInfo(List<AmuletClass> items)
+        {
+            int count = 1;
+            Console.Clear();
+            foreach (IAmulet item in items)
+            {
+                Console.Write(count + ". ");
+                item.ShowInfo();
+                count++;
+            }
+            Message(Texts.ChooseItem);
+            try
+            {
+                int choise = int.Parse(Console.ReadLine());
+                if (choise > 0 && choise < items.Count + 1)
+                {
+                    player.BuyAmulet(listOfAmulettes[choise - 1].Amulet);
+                }
+            }
+            catch (Exception e)
+            { }
+
+        }
+
+        private void ShopMenu()
+        {
+            bool shopping = true;
+            while (shopping)
+            {
+                Console.Clear();
+                Message(Texts.AmuletOrPotion);
+                string choise = Console.ReadLine();
+                switch (choise)
+                {
+                    case "1":
+                        ShowTheInfo(listOfAmulettes);
+                        break;
+                    case "2":
+
+                        break;
+                    case "B":
+                        shopping = false;
+                        break;
+                    case "b":
+                        shopping = false;
+                        break;
+                    default:
+
+                        break;
+                }
+            }
+        }
+
         public void Run()
         {
             while (running)
@@ -149,7 +205,7 @@ namespace Inlämningsuppgift_3
                             Console.ReadKey();
                             break;
                         case "3":
-
+                            ShopMenu();
                             break;
                         case "4":
 
